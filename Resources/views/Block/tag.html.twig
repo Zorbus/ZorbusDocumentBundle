@@ -1,0 +1,12 @@
+<div class="row-fluid">
+    <div class="well">
+        <h2>{{ tag }}</h2>
+        <div class="tab-content">
+            <ul>
+            {% for document in tag.documents %}
+                <li><a href="{{ asset(document.webPath(document.attachment)) }}" target="_blank">{{ document }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>

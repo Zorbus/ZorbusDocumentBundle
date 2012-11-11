@@ -1,0 +1,40 @@
+parameters:
+    zorbus_document.document.admin.class: Zorbus\DocumentBundle\Admin\DocumentAdmin
+    zorbus_document.tag.admin.class: Zorbus\DocumentBundle\Admin\TagAdmin
+
+    zorbus_document.document.entity.class: Zorbus\DocumentBundle\Entity\Document
+    zorbus_document.tag.entity.class: Zorbus\DocumentBundle\Entity\Tag
+
+    zorbus_document.document.controller.class: SonataAdminBundle:CRUD
+    zorbus_document.tag.controller.class: SonataAdminBundle:CRUD
+
+    zorbus_document.block.document.class: Zorbus\DocumentBundle\Model\BlockDocumentConfig
+    zorbus_document.block.tag.class: Zorbus\DocumentBundle\Model\BlockTagConfig
+
+services:
+    zorbus_document.document.admin:
+        class: %zorbus_document.document.admin.class%
+        arguments: [~, %zorbus_document.document.entity.class%, %zorbus_document.document.controller.class%]
+        calls:
+            - [setTranslationDomain, [DocumentBundle]]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Documents, label: Documents }
+    zorbus_document.tag.admin:
+        class: %zorbus_document.tag.admin.class%
+        arguments: [~, %zorbus_document.tag.entity.class%, %zorbus_document.tag.controller.class%]
+        calls:
+            - [setTranslationDomain, [DocumentBundle]]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Documents, label: Tags }
+    zorbus_document.block.document:
+        class: %zorbus_document.block.document.class%
+        scope: prototype
+        arguments: ['@zorbus_block.block.admin', '@form.factory', '@http_kernel']
+        tags:
+            - { name: zorbus_block.block, category: Documents }
+    zorbus_document.block.tag:
+        class: %zorbus_document.block.tag.class%
+        scope: prototype
+        arguments: ['@zorbus_block.block.admin', '@form.factory', '@http_kernel']
+        tags:
+            - { name: zorbus_block.block, category: Documents }

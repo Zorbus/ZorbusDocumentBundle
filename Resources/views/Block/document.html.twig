@@ -1,0 +1,13 @@
+<div class="row-fluid">
+    <div class="well">
+        <h2>{{ document }}</h2>
+        <h3><strong><a href="{{ asset(document.webPath(document.attachment)) }}" target="_blank">{{ document }}</a></strong></h3>
+
+        {{ document.description | raw }}
+
+        <hr />
+        {% for tag in document.tags %}
+            <span class="badge">{{ tag }}</span>
+        {% endfor %}
+    </div>
+</div>

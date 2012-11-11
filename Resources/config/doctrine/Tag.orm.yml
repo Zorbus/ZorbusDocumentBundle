@@ -1,0 +1,33 @@
+Zorbus\DocumentBundle\Entity\Tag:
+    type: entity
+    table: zorbus_document_tag
+    repositoryClass: Zorbus\DocumentBundle\Entity\TagRepository
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        name:
+            type: string
+            length: 255
+            unique: true
+        enabled:
+            type: boolean
+            default: true
+            nullable: true
+        slug:
+            type: string
+            length: 255
+            nullable: true
+            gedmo:
+                slug:
+                    separator: '-'
+                    style: default
+                    fields:
+                        - name
+    manyToMany:
+        documents:
+            targetEntity: Document
+            mappedBy: tags
+            orderBy:
+                title: ASC

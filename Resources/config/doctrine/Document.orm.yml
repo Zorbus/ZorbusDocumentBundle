@@ -1,0 +1,89 @@
+Zorbus\DocumentBundle\Entity\Document:
+    type: entity
+    table: zorbus_document_document
+    repositoryClass: Zorbus\DocumentBundle\Entity\DocumentRepository
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        title:
+            type: string
+            length: 255
+            nullable: false
+        description:
+            type: text
+            nullable: true
+        size:
+            type: string
+            length: 255
+            nullable: true
+        mime:
+            type: string
+            length: 255
+            nullalble: true
+        extension:
+            type: string
+            length: 10
+            nullalble: true
+        lang:
+            type: string
+            length: 5
+            nullable: true
+            default: en_US
+        attachment:
+            type: string
+            length: 255
+            nullable: false
+        icon:
+            type: string
+            length: 255
+            nullable: true
+        enabled:
+            type: boolean
+            default: true
+            nullable: true
+        slug:
+            type: string
+            length: 255
+            nullable: true
+            gedmo:
+                slug:
+                    separator: '-'
+                    style: default
+                    fields:
+                        - title
+        created_at:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: create
+        updated_at:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
+    lifecycleCallbacks:
+        prePersist: [preIconUpload, preAttachmentUpload, setFileInfo]
+        preUpdate: [preIconUpload, preAttachmentUpload, setFileInfo]
+        postPersist: [postIconUpload, postAttachmentUpload]
+        postUpdate: [postIconUpload, postAttachmentUpload]
+        postRemove: [postRemove]
+    manyToMany:
+        tags:
+            targetEntity: Tag
+            inversedBy: documents
+            orderBy:
+                name: ASC
+            joinTable:
+                name: zorbus_document_document_tag
+                joinColumns:
+                    document_id:
+                        referencedColumnName: id
+                        onDelete: CASCADE
+                inverseJoinColumns:
+                    tag_id:
+                        referencedColumnName: id
+                        onDelete: CASCADE
