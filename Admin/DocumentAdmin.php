@@ -5,9 +5,10 @@ namespace Zorbus\DocumentBundle\Admin;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\File;
 
 class DocumentAdmin extends Admin
 {
@@ -15,22 +16,36 @@ class DocumentAdmin extends Admin
     {
         $formMapper
                 ->with('Identification')
-                ->add('title')
-                ->add('attachmentTemp', 'file', array('required' => true, 'label' => 'Document'))
-                ->add('description', 'textarea', array('required' => false, 'attr' => array('class' => 'ckeditor')))
+                ->add('title', null, array(
+                    'constraints' => array(
+                        new NotBlank()
+                    )
+                ))
+                ->add('attachmentTemp', 'file', array(
+                    'required' => true,
+                    'label' => 'Document',
+                    'constraints' => array(
+                        new NotBlank(),
+                        new File()
+                    )
+                ))
+                ->add('description', 'textarea', array(
+                    'required' => false,
+                    'attr' => array('class' => 'ckeditor')
+                ))
                 ->end()
                 ->with('Configuration', array('collapsed' => false))
-                ->add('iconTemp', 'file', array('required' => false, 'label' => 'Image'))
-                ->add('enabled', null, array('required' => false))
+                    ->add('iconTemp', 'file', array('required' => false, 'label' => 'Image'))
+                    ->add('enabled', null, array('required' => false))
                 ->end()
                 ->with('Classification', array('collapsed' => true))
-                ->add('tags', 'entity', array(
-                    'class' => 'Zorbus\\DocumentBundle\\Entity\\Tag',
-                    'multiple' => true,
-                    'expanded' => false,
-                    'required' => false,
-                    'attr' => array('class' => 'select2 span5')
-                ))
+                    ->add('tags', 'entity', array(
+                        'class' => 'Zorbus\\DocumentBundle\\Entity\\Tag',
+                        'multiple' => true,
+                        'expanded' => false,
+                        'required' => false,
+                        'attr' => array('class' => 'select2 span5')
+                    ))
                 ->end()
         ;
     }
@@ -65,16 +80,6 @@ class DocumentAdmin extends Admin
                 ->add('extension')
                 ->add('tags')
                 ->add('enabled')
-        ;
-    }
-
-    public function validate(ErrorElement $errorElement, $object)
-    {
-        $errorElement
-                ->with('title')
-                ->assertNotBlank()
-                ->assertMaxLength(array('limit' => 255))
-                ->end()
         ;
     }
 

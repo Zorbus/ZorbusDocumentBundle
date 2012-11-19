@@ -4,15 +4,19 @@ namespace Zorbus\DocumentBundle\Admin;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Max;
 
 class TagAdmin extends Admin
 {
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('name')
+            ->add('name', null, array(
+                new NotBlank(),
+                new Max(array('limit' => 255))
+            ))
             ->add('enabled')
         ;
     }
@@ -29,15 +33,6 @@ class TagAdmin extends Admin
         $listMapper
             ->addIdentifier('name')
             ->add('enabled')
-        ;
-    }
-
-    public function validate(ErrorElement $errorElement, $object)
-    {
-        $errorElement
-            ->with('name')
-                ->assertMaxLength(array('limit' => 255))
-            ->end()
         ;
     }
 }

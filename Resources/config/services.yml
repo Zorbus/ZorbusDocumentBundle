@@ -16,14 +16,14 @@ services:
         class: %zorbus_document.document.admin.class%
         arguments: [~, %zorbus_document.document.entity.class%, %zorbus_document.document.controller.class%]
         calls:
-            - [setTranslationDomain, [DocumentBundle]]
+            - [setTranslationDomain, [ZorbusDocumentBundle]]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Documents, label: Documents }
     zorbus_document.tag.admin:
         class: %zorbus_document.tag.admin.class%
         arguments: [~, %zorbus_document.tag.entity.class%, %zorbus_document.tag.controller.class%]
         calls:
-            - [setTranslationDomain, [DocumentBundle]]
+            - [setTranslationDomain, [ZorbusDocumentBundle]]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Documents, label: Tags }
     zorbus_document.block.document:
