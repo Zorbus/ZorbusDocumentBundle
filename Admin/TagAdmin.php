@@ -6,7 +6,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Max;
+use Symfony\Component\Validator\Constraints\MaxLength;
 
 class TagAdmin extends Admin
 {
@@ -14,8 +14,10 @@ class TagAdmin extends Admin
     {
         $formMapper
             ->add('name', null, array(
-                new NotBlank(),
-                new Max(array('limit' => 255))
+                'constraints' => array(
+                    new NotBlank(),
+                    new MaxLength(array('limit' => 255))
+                )
             ))
             ->add('enabled')
         ;
