@@ -31,10 +31,10 @@ services:
         scope: prototype
         arguments: ['@zorbus_block.block.admin', '@form.factory', '@http_kernel']
         tags:
-            - { name: zorbus_block.block, category: Documents }
+            - { name: zorbus_block.block, category: Document }
     zorbus_document.block.tag:
         class: %zorbus_document.block.tag.class%
         scope: prototype
         arguments: ['@zorbus_block.block.admin', '@form.factory', '@http_kernel']
         tags:
-            - { name: zorbus_block.block, category: Documents }
+            - { name: zorbus_block.block, category: Document }
